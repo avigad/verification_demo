@@ -30,4 +30,10 @@
       "subDir?": null,
       "rev": "5a858c32963b6b19be0d477a30a1f4b6c120be7e",
       "name": "Cli",
-      "inputRev?": "nightly"}}]}
+      "inputRev?": "nightly"}},
+   {"git":
+     {"url": "https://github.com/ufmg-smite/lean-smt",
+      "subDir?": null,
+      "rev": "381eca004ca0211306c2c25693205be2850b4dfe",
+      "name": "smt",
+      "inputRev?": "main"}}]}

@@ -2,5 +2,5 @@ import Cli
 import Demo.Demo
 
 def main (args : List String) : IO Unit := do
-  println! "Hello world"
-  println! (fib' 10000)
+  let n := args[0]!.toNat!
+  println! (fib₄ n)
