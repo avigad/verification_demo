@@ -2,7 +2,7 @@ import Mathlib.Data.Nat.Basic
 
 def showSums : IO Unit := do
   let mut sum := 0
-  for i in [0:100] do
+  for i in [:100] do
     sum := sum + i
     IO.println s!"i: {i}, sum: {sum}"
 

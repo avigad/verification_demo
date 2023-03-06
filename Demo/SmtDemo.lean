@@ -5,7 +5,7 @@ import Demo.Util
 import Smt
 import Aesop
 
--- set_option smt.solver.path "..."
+--set_option smt.solver.path "/home/avigad/projects/verification_demo/bin/cvc5"
 -- set_option smt.solver.kind "vampire"
 
 example (n m : Int) (h : 0 < m) : n % m < m := by
@@ -78,4 +78,23 @@ lemma fib_add'' (m n : ℕ) :
     simp only [fib_add_two, ih]
     ring
 
+def fib₀ : Nat → Nat
+  | 0 => 0
+  | n + 1 => (aux n).2
+where
+  aux : Nat → Nat × Nat
+    | 0 => (0, 1)
+    | n + 1 =>
+      let (a, b) := aux n
+      (b, a + b)
 
+#eval List.range 20 |>.map fib₀
+
+lemma fib₀_aux_eq (n : Nat) : fib₀.aux n = (fib n, fib (n + 1)) := by
+  induction n
+  . smt [fib_zero, fib_one, fib_add_two]
+  . next _ ih =>
+    simp [fib₀.aux, fib, ih, add_comm]
+
+lemma fib₀_aux_eq_alt (n : Nat) : fib₀.aux n = (fib n, fib (n + 1)) := by
+  induction n <;> simp [*, fib, fib₀.aux, add_comm]
