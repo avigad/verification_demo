@@ -123,48 +123,8 @@ def nicer_foo_alt (n : Nat) : {sum : Nat // sum = ∑ j in range n, j } :=
     n
 
 /-
-It shouldn't be too hard to turn the more general formulation into something like the following
-syntax:
-def foo (n : Nat) : { sum : Nat // sum = ∑ j in range n, j } := Id.run do
-  let mut sum := 0
-  for i in [:n] with inv
-    {invariant: sum = ∑ j in range i, j}
-    {init := rfl}
-  do
-    sum := sum + i
-    {step := by rintro i state rfl; rw [sum_range_succ]}
-  ⟨sum, inv⟩
-Replacing any of the obligations by an underscore should show us what they are, and it should be
-possible to use any Lean proof to fill them. Ideally, they should all be filled with `by auto`,
-or annotations that are almost as short and easy to write. Indeed, it would be good to have syntax
-that silently calls generic automation whenever the proofs are left out.
-It might even be nice to introduce something like `{assert: ...}` syntax for `have` clauses,
-and similar notation for preconditions and postconditions. Users might find it attractive to have
-notation that separates computation from proof obligations. It's a somewhat perverse (though
-admittedly useful) fact that dependent type theory blurs the distinction between them.
-So what do we need to do to replace Why3 by Lean?
-- Generalize the loop construction to all the things handled by "do unchained."
-- Get better back-end automation to fill in most of the proof obligations. Ideally, the automation
-  will be proof producing, but even trusted automation that allows better user interaction will
-  be a win over Why3.
-For the first, we need to generalize to arbitrary iterables and handle early returns, as well as
-nested loops. It would be helpful to think about this in algebraic terms, and to think about how
-the operations compose. What we are using is essentially what people call a "Dijsktra monad,"
-described nicely in Section 3 of the paper "Dijkstra monads forever." The name is a misnomer,
-since it really isn't a monad; it's a monad plus the invariants on the monad. But the point is
-there is a way of composing things nicely, so we should just adapt the "do unchained" notation
-to something like that framework.
+Here is some nicer syntax:
 -/
-
--- open Lean
-
-example : 2 = 2 :=
-  calc
-    2 = 2 := sorry
-    _ = 2 := sorry
-
--- syntax calcStep := ppIndent(colGe term " := " withPosition(term))
--- syntax calcSteps := ppLine withPosition(calcStep) ppLine withPosition((calcStep ppLine)*)
 
 syntax "for" ident "upto" term
   withPosition("state:" ident ":=" term
