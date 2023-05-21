@@ -151,3 +151,26 @@ macro_rules
           $n
         $rest)
 
+/-
+Some additional notes:
+
+Mario and Wojciech have pointed out that the computation of `next_state` might want to use the
+invariant, so we should combine `next_state` and `step` to type
+
+  (i : Nat) → (state : State) → (inv : Invariant state i) →
+    { new_state // Ivariant new_state (i + 1) }
+
+Scott points out most of the examples in the Dafny book use `while`, so we should figure out how
+to do this trick with `while` as well, with a `termination_by` or something like that.
+
+The plan:
+- Generalize to arbitrary ranges and `Fin`, and arbitrary state.
+- Think about generalization to other things we might iterate over; see, for example,
+    `ListLoop.lean`, though in retrospect this doesn't seem so compelling.
+- Figure out how to handle early return.
+- Figure out how to compose (additional state, nested loops).
+- Think about `while`.
+- Implement syntax, e.g. building on Mario's `lafny`:
+    https://github.com/digama0/lafny/
+-/
+
