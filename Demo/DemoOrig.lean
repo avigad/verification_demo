@@ -41,7 +41,7 @@ where
 
 lemma fib₀_aux_eq (n : Nat) : fib₀.aux n = (fib n, fib (n + 1)) := by
   induction n
-  . simp [fib]
+  . simp [fib]; rfl
   . next _ ih =>
     simp [fib₀.aux, fib, ih, add_comm]
 
@@ -49,7 +49,7 @@ lemma fib₀_aux_eq_alt (n : Nat) : fib₀.aux n = (fib n, fib (n + 1)) := by
   induction n <;> simp [*, fib, fib₀.aux, add_comm]
 
 theorem fib₀_eq (n : Nat) : fib n = fib₀ n := by
-  cases n <;> simp [fib₀, fib₀_aux_eq]
+  cases n <;> simp [fib, fib₀, fib₀_aux_eq]
 
 /-
 @[csimp] theorem fib₀_eq : fib = fib₀ := by
